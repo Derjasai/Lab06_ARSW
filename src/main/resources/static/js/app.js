@@ -8,35 +8,28 @@ var app = (function (){
 
     function getNameAuthorBlueprints() {
         author = $("#inputName").val();
-        if (author === "") {
-            alert("Debe ingresar un nombre");
-        } else {
-            apimock.getBlueprintsByAuthor(author,parceroData);
-        }
+        apimock.getBlueprintsByAuthor(author,tableData);
     }
 
-    var parceroData = function( data) {
+    var tableData = function( data) {
         $("#table tbody").empty();
-        if (data === undefined) {
-            alert("No existe el autor");
-        } else {
-            getName();
-            const datanew = data.map((elemento) => {
-                return {
-                    name: elemento.name,
-                    puntos: elemento.points.length
-                }
-            });
+        getName();
+        const newRow = data.map((element) => {
+            return {
+                authorName: element.name,
+                points: element.points.length
+            }
+        });
 
-            datanew.map((elementos) => {
-                $("#tableBlueprints > tbody:last").append($("<tr><td>" + elementos.name + "</td><td>" + elementos.puntos.toString() +
-                    "</td><td>" + "<button  id=" + elementos.name + ">open</button>" + "</td>"));
-            });
+        newRow.map((elements) => {
+            $("#tableBlueprints > tbody:last").append($("<tr><td>" + elements.authorName + "</td><td>" + elements.points.toString() +
+                "</td><td>" + "<button  id=" + elements.authorName + ">open</button>" + "</td>"));
+        });
 
-            const totalPuntos = datanew.reduce((suma, {puntos}) => suma + puntos, 0);
+        const total = newRow.reduce((suma, {points}) => suma + points, 0);
 
-            $("#points").text(totalPuntos);
-        }
+        $("#points").text(total);
+        
     }
 
     return{
