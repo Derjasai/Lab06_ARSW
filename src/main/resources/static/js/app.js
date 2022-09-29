@@ -8,11 +8,11 @@ var app = (function (){
 
     function getNameAuthorBlueprints() {
         author = $("#inputName").val();
-        apimock.getBlueprintsByAuthor(author,tableData);
+        apimock.getNameAuthorBlueprints(author,tableData);
     }
 
     var tableData = function( data) {
-        $("#table tbody").empty();
+        $("#tableBlueprints tbody").empty();
         getName();
         const newRow = data.map((element) => {
             return {
@@ -23,7 +23,7 @@ var app = (function (){
 
         newRow.map((elements) => {
             $("#tableBlueprints > tbody:last").append($("<tr><td>" + elements.authorName + "</td><td>" + elements.points.toString() +
-                "</td><td>" + "<button  id=" + elements.authorName + ">open</button>" + "</td>"));
+                "</td><td>" + "<button  id=" + elements.authorName + " onclick=app.getBlueprintsByNameAndAuthor(this)>open</button>" + "</td>"));
         });
 
         const total = newRow.reduce((suma, {points}) => suma + points, 0);
@@ -32,7 +32,35 @@ var app = (function (){
         
     }
 
+    function getBlueprintsByNameAndAuthor(data) {
+                    author = $("#inputName").val();
+                    blueprintName = data.id;
+
+                    document.getElementById("actualName").innerHTML =
+                                    "Current Blueprint: " + blueprintName;
+                    apimock.getBlueprintsByNameAndAuthor(author,blueprintName , drawCanvas);
+                }
+
+            var drawCanvas = function(blueprint){
+                    can = document.getElementById("myCanvas");
+                    ctx = can.getContext("2d");
+                    ctx.clearRect(0, 0, can.width, can.height);
+                    ctx.beginPath();
+                    blueprintsPoints = blueprint.points.slice(1, blueprint.points.length);
+                    initx = blueprint.points[0].x;
+                    inity = blueprint.points[0].y;
+                    blueprintsPoints.forEach((element) => {
+                    ctx.moveTo(initx, inity);
+                    ctx.lineTo(element.x, element.y);
+                    ctx.stroke();
+                    initx = element.x;
+                    inity = element.y;
+                    });
+            }
+
     return{
-        getNameAuthorBlueprints: getNameAuthorBlueprints
+        getNameAuthorBlueprints: getNameAuthorBlueprints,
+        getBlueprintsByNameAndAuthor: getBlueprintsByNameAndAuthor
     }
 })();
+

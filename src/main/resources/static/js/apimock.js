@@ -14,13 +14,15 @@ apimock=(function(){
 
 
 	return {
-		getBlueprintsByAuthor:function(authname,callback){
+		getNameAuthorBlueprints:function(authname,callback){
 			callback(
 				mockdata[authname]
 			);
 		},
 
 		getBlueprintsByNameAndAuthor:function(authname,bpname,callback){
+            console.log(authname);
+            console.log(bpname);
 
 			callback(
 				mockdata[authname].find(function(e){return e.name===bpname})
