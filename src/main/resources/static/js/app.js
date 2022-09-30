@@ -8,7 +8,7 @@ var app = (function (){
 
     function getNameAuthorBlueprints() {
         author = $("#inputName").val();
-        apimock.getNameAuthorBlueprints(author,tableData);
+        apiclient.getNameAuthorBlueprints(author,tableData);
     }
 
     var tableData = function( data) {
@@ -33,30 +33,30 @@ var app = (function (){
     }
 
     function getBlueprintsByNameAndAuthor(data) {
-                    author = $("#inputName").val();
-                    blueprintName = data.id;
+        author = $("#inputName").val();
+        blueprintName = data.id;
 
-                    document.getElementById("actualName").innerHTML =
-                                    "Current Blueprint: " + blueprintName;
-                    apimock.getBlueprintsByNameAndAuthor(author,blueprintName , drawCanvas);
-                }
+        document.getElementById("actualName").innerHTML =
+                        "Current Blueprint: " + blueprintName;
+        apiclient.getBlueprintsByNameAndAuthor(author,blueprintName , drawCanvas);
+    }
 
-            var drawCanvas = function(blueprint){
-                    can = document.getElementById("myCanvas");
-                    ctx = can.getContext("2d");
-                    ctx.clearRect(0, 0, can.width, can.height);
-                    ctx.beginPath();
-                    blueprintsPoints = blueprint.points.slice(1, blueprint.points.length);
-                    initx = blueprint.points[0].x;
-                    inity = blueprint.points[0].y;
-                    blueprintsPoints.forEach((element) => {
-                    ctx.moveTo(initx, inity);
-                    ctx.lineTo(element.x, element.y);
-                    ctx.stroke();
-                    initx = element.x;
-                    inity = element.y;
-                    });
-            }
+    var drawCanvas = function(blueprint){
+            can = document.getElementById("myCanvas");
+            ctx = can.getContext("2d");
+            ctx.clearRect(0, 0, can.width, can.height);
+            ctx.beginPath();
+            blueprintsPoints = blueprint.points.slice(1, blueprint.points.length);
+            initx = blueprint.points[0].x;
+            inity = blueprint.points[0].y;
+            blueprintsPoints.forEach((element) => {
+            ctx.moveTo(initx, inity);
+            ctx.lineTo(element.x, element.y);
+            ctx.stroke();
+            initx = element.x;
+            inity = element.y;
+            });
+    }
 
     return{
         getNameAuthorBlueprints: getNameAuthorBlueprints,
